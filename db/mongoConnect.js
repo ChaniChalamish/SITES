@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
+const {config} = require("../config/secret")
 
 main().catch(err => console.log("Mongo error:", err));
 
 async function main() {
   try {
-    await mongoose.connect(process.env.MONGO_URL);
+    await mongoose.connect(config.mongoUrl);
     console.log("Mongo connected successfully");
   } catch (err) {
     console.error(" Mongo connection failed:", err.message);

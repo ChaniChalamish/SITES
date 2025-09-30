@@ -1,4 +1,4 @@
-const {auth} = require("../middlewares/auth");
+const {auth,authAdmin} = require("../middlewares/auth");
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
@@ -63,6 +63,15 @@ router.get("/myInfo", auth, async (req, res) => {
     try {
         let user = await UserModel.findOne({ _id: req.tokenData._id }, { password: 0 });
         res.json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ msg: "There was an error, try again later", err });
+    }
+});
+router.get("/usersLIst", authAdmin, async (req, res) => {
+    try {
+        let users = await UserModel.find({  }, { password: 0 });
+        res.json(users);
     } catch (err) {
         console.log(err);
         res.status(500).json({ msg: "There was an error, try again later", err });
